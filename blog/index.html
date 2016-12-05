@@ -2,9 +2,36 @@
 layout: default
 title: Meigarom's Blog
 ---
-    <h1>{{ page.title }}</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Three Column HTML Layout</title>
+</head>
+<body>
+<table width="100%" border="0">
+  <tr valign="top">
+    <td bgcolor="#aaa" width="20%">
+      <b>Main Menu</b><br />
+      HTML<br />
+      PHP<br />
+      PERL...
+    </td>
+    <td bgcolor="#b5dcb3" height="200" width="60%">
+            <h1>{{ page.title }}</h1>
     <ul class="posts">
         {% for post in site.posts %}
         <li><span>{{ post.date | date_to_string }}</span> » <a href="/machine_learning/{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
         {% endfor %}
      </ul>
+    </td>
+    <td bgcolor="#aaa" width="20%">
+      <b>Right Menu</b><br />
+      HTML<br />
+      PHP<br />
+      PERL...
+    </td>
+   </tr>
+<table>
+</body>
+</html>
+
