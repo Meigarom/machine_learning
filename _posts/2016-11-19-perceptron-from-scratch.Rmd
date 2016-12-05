@@ -1,0 +1,130 @@
+--- title: "Openining Neural Network Perceptron Black Box"
+author: "Meigarom D F Lopes"
+date: October 2nd, 2016
+output:
+    html_document:
+    toc: true
+    highlight: zenburn
+---
+
+### How to implement NN Perceptron from scratch
+# Introduction
+People still faces machine learning algorithms as a blackbox. They feel afraid to go deep in these algorithm and find themselves lost in the 
+middle of math concepts. The good new is that we can open up this black box and check out really close how it makes the magic about 
+classification and regression.
+In this post, I am going to open up neural network perceptron black box and show step-by-step how to implement it from scratch. You can 
+follow the process and understand the idea behing Perceptron algorithm. 
+
+## What is Perceptron?
+Percepton is the simplest neural network model. By simplest model I want to say that this model has only on neuron. Basically, Perceptron is
+composed by input and output layer.
+
+### We need data
+Before go deep in perceptron algorithm, we need to get some data for training perceptron stage. Data itself can be really difficult to 
+handle, there is a lot of manipulation, transformation and featuring over data to prepare it for use to algorithm. As the focus on this post
+is about algorithm, I am going to use a very simple dataset known as logic data, these data come from logic function such as AND, OR, XOR,
+etc.  I am going to use data from logic function AND.
+
+Writing this dataset as a dataframe:
+
+```{r}
+dataset = data.frame( f1 = c( 0, 0, 1, 1 ), 
+                      f2 = c( 0, 1, 0, 1 ), 
+                      t  = c( 0, 1, 1, 1 ) )
+print( dataset )
+```
+
+Let's look at the dataset. It has two features and one target that correspond to classes, in this case we have 2 classes, class 0 and class 1
+Also, this dataset shows 4 observations, 2 observation for each class. 
+This dataset is very limited, we have only 4 observations, but it will be enough for our purpose. 
+
+### To be the best, we need training!
+We are going to implement the training phase.
+
+We can divide perceptron training phase in 3 parts: 
+Perceptron basically work with multiplication between inputs and weights. So, one way to make it less computation consume I am going to work with matrices and its multiplications.
+
+Lets convert dataset in matrix format. 
+```{r}
+data = as.matrix( dataset )
+```
+After data converted, the first step in training phase is determine the initial weights, the number of weights is going to be the same of the number of features and we need to add an extra weight call bias.
+I am going to pick initial weights randomly according to normal distribution. 
+
+```{r}
+weights = rnorm( mean = 0, sd = 0.1, n = 3 )
+```
+
+The set of weights is composed by 3 weights, one weight for each input plus bias.
+
+```{r}
+print( weights )
+```
+
+After set up initial weights, lets start the iteration over all example in dataset.
+
+This dataset has 4 observation or examples, each classes has 2 examples of training.
+
+Clearly, I do not have a lot of datast to split it in training and test dataset. As the goal of this post is show how Perceptron works I am not going to worry about it. But obviously when you are handling with
+a lot of data, there is others approaches and techniques that need to be consider.
+
+First part is iterate over all observation. 
+
+Lets take the first observation and add bias value.
+```{r}
+x1 = c( data[ 1: 1:2 ], 1 )
+```
+
+Now, multipling weights by observation, we have:
+```{r}
+net = c( data[ 1: 1:2 ], 1 ) %*% weights
+```
+
+```{r}
+print( net ) 
+```
+
+The result of this multiplication is a number. This number represents the strenghts of sinapse. The activation function is going to decide if this "stength" is enough to fire or not a neuron.
+So, we can define the activation function as follows:
+
+```{r}
+activation_function = function( net ){
+    if( net > 0.5 )
+        return( 1 )
+    return( 0 )
+}
+```
+
+The activation function is a heavyside step function, it works returning 1 case value is greater than a threshold or returning 0 other case.
+
+```{r}
+y_hat = activation_function( net )
+```
+
+```{r}
+print( y_hat )
+```
+
+
+**Compute square error**
+```{r}
+error = ( y_hat - data[ 1, 3 ] )
+sqerror = error^2
+```
+
+```{r}
+print( error )
+```
+
+```{r}
+print( sqerror )
+```
+
+**Update weights**
+```{r}
+weights = weights - neta * ( error ) * c( data[ 1, 1:2 ], 1 )
+```
+
+```{r}
+print( weights )
+```

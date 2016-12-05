@@ -1,4 +1,7 @@
 #f
+
+
+
 f = function( net_matrix ){
     id = which( net_matrix > 0.5 )
     net_matrix[ id ] = 1
